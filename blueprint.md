@@ -3,24 +3,26 @@
 
 ## Overview
 
-This project is a simple web application that generates random lottery numbers. It's built using modern HTML, CSS, and JavaScript, leveraging Web Components for a modular and reusable UI.
+This project is a modern web application that generates random lottery numbers. It features a clean, responsive UI with dark/light mode support, built using native Web Components for modularity and performance.
 
 ## Features
 
-*   Generate 6 unique random numbers between 1 and 45.
-*   Visually appealing and responsive design.
-*   Modern and interactive user interface.
+*   **Lottery Number Generation:** Generates 6 unique random numbers between 1 and 45 with a smooth "pop-in" animation.
+*   **Theme Switching:** Support for Dark Mode and Light Mode with persistence via `localStorage`.
+*   **Modern Aesthetics:** Uses Pretendard font, smooth transitions, and a vibrant color palette with elevation effects.
+*   **Web Components:** Encapsulated logic and styling using Custom Elements and Shadow DOM.
 
-## Current Plan
+## Project Details
 
-*   **HTML (`index.html`):**
-    *   Update the page title and heading.
-    *   Add a custom element `<lotto-generator>` to the body.
-*   **CSS (`style.css`):**
-    *   Add styles for the main container, title, and the lottery generator component.
-    *   Implement a modern and clean design with a playful color scheme.
-    *   Use CSS variables for easy theming.
-*   **JavaScript (`main.js`):**
-    *   Create a `LottoGenerator` Web Component.
-    *   The component will handle the generation of lottery numbers.
-    *   The component will display the numbers in a visually engaging way.
+### HTML (`index.html`)
+*   Main entry point with `<theme-toggle>` and `<lotto-generator>` components.
+*   Responsive meta tags and link to external styles.
+
+### CSS (`style.css`)
+*   **Theming:** Implemented using CSS variables (`:root` and `[data-theme="dark"]`).
+*   **Layout:** Flexbox-based centering with smooth background and color transitions.
+*   **Typography:** Modern system fonts for clarity and style.
+
+### JavaScript (`main.js`)
+*   `ThemeToggle` Component: Handles theme logic, attribute toggling on the `html` element, and persistence.
+*   `LottoGenerator` Component: Manages random number generation, sorting, and animated rendering of lottery balls.
