@@ -307,3 +307,45 @@ class LottoGenerator extends HTMLElement {
 }
 
 customElements.define('lotto-generator', LottoGenerator);
+
+class DisqusComments extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.innerHTML = `
+            <style>
+                :host {
+                    display: block;
+                    padding: 2rem;
+                    background: var(--surface-color);
+                    border-radius: 24px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                    transition: all 0.3s ease;
+                    margin-top: 2rem;
+                }
+                h2 {
+                    color: var(--primary-color);
+                    margin-bottom: 1.5rem;
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    text-align: center;
+                }
+            </style>
+            <h2>댓글 💬</h2>
+            <div id="disqus_thread"></div>
+        `;
+    }
+
+    connectedCallback() {
+        this.loadDisqus();
+    }
+
+    loadDisqus() {
+        const d = document, s = d.createElement('script');
+        s.src = 'https://study-d5ai2pl3dn.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+}
+
+customElements.define('disqus-comments', DisqusComments);
