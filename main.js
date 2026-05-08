@@ -1,3 +1,154 @@
+class PartnershipForm extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.innerHTML = `
+            <style>
+                :host {
+                    display: block;
+                    padding: 2rem;
+                    background: var(--surface-color);
+                    border-radius: 24px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                    transition: all 0.3s ease;
+                    text-align: center;
+                }
+                h2 {
+                    color: var(--primary-color);
+                    margin-bottom: 1.5rem;
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                }
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.2rem;
+                }
+                .form-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    text-align: left;
+                }
+                label {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: var(--text-color);
+                    opacity: 0.8;
+                }
+                input, textarea {
+                    padding: 0.8rem 1rem;
+                    border-radius: 12px;
+                    border: 1px solid rgba(0,0,0,0.1);
+                    background: var(--background-color);
+                    color: var(--text-color);
+                    font-family: inherit;
+                    font-size: 1rem;
+                    transition: border-color 0.3s;
+                }
+                input:focus, textarea:focus {
+                    outline: none;
+                    border-color: var(--primary-color);
+                }
+                textarea {
+                    resize: vertical;
+                    min-height: 100px;
+                }
+                button {
+                    background-color: var(--primary-color);
+                    color: white;
+                    border: none;
+                    padding: 1rem;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    border-radius: 12px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    margin-top: 0.5rem;
+                }
+                button:hover {
+                    filter: brightness(1.1);
+                    transform: translateY(-1px);
+                }
+                #status {
+                    margin-top: 1rem;
+                    font-size: 0.9rem;
+                    padding: 0.8rem;
+                    border-radius: 8px;
+                    display: none;
+                }
+                #status.success {
+                    display: block;
+                    background: rgba(76, 175, 80, 0.1);
+                    color: #4CAF50;
+                }
+                #status.error {
+                    display: block;
+                    background: rgba(244, 67, 54, 0.1);
+                    color: #f44336;
+                }
+            </style>
+            <h2>제휴 문의 🤝</h2>
+            <form id="contact-form" action="https://formspree.io/f/mlgzpgbd" method="POST">
+                <div class="form-group">
+                    <label>성함 / 기업명</label>
+                    <input type="text" name="name" required placeholder="홍길동 / (주)조코딩">
+                </div>
+                <div class="form-group">
+                    <label>이메일 주소</label>
+                    <input type="email" name="email" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label>문의 내용</label>
+                    <textarea name="message" required placeholder="제휴 제안 내용을 입력해주세요."></textarea>
+                </div>
+                <button type="submit">문의하기</button>
+            </form>
+            <div id="status"></div>
+        `;
+
+        this.form = this.shadowRoot.getElementById('contact-form');
+        this.status = this.shadowRoot.getElementById('status');
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    }
+
+    async handleSubmit(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        const button = this.form.querySelector('button');
+        button.disabled = true;
+        button.textContent = '보내는 중...';
+
+        try {
+            const response = await fetch(this.form.action, {
+                method: this.form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                this.status.textContent = "문의가 성공적으로 전송되었습니다! 곧 연락드리겠습니다.";
+                this.status.className = "success";
+                this.form.reset();
+            } else {
+                const result = await response.json();
+                this.status.textContent = result.errors ? result.errors.map(error => error.message).join(", ") : "오류가 발생했습니다.";
+                this.status.className = "error";
+            }
+        } catch (error) {
+            this.status.textContent = "전송 중 오류가 발생했습니다. 다시 시도해주세요.";
+            this.status.className = "error";
+        } finally {
+            button.disabled = false;
+            button.textContent = '문의하기';
+        }
+    }
+}
+
+customElements.define('partnership-form', PartnershipForm);
+
 class ThemeToggle extends HTMLElement {
     constructor() {
         super();
@@ -34,8 +185,8 @@ class ThemeToggle extends HTMLElement {
                 }
             </style>
             <button>
-                <span class="icon">\${theme === 'dark' ? '☀️' : '🌙'}</span>
-                <span>\${theme === 'dark' ? '라이트 모드' : '다크 모드'}</span>
+                <span class="icon">${theme === 'dark' ? '☀️' : '🌙'}</span>
+                <span>${theme === 'dark' ? '라이트 모드' : '다크 모드'}</span>
             </button>
         `;
 
@@ -67,6 +218,7 @@ class LottoGenerator extends HTMLElement {
                     border-radius: 24px;
                     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
                     transition: all 0.3s ease;
+                    text-align: center;
                 }
                 h1 {
                     color: var(--primary-color);

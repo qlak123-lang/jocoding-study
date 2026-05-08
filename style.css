@@ -27,17 +27,22 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 2rem;
     transition: background-color 0.3s, color 0.3s;
+    box-sizing: border-box;
 }
 
-lotto-generator {
-    text-align: center;
+lotto-generator, partnership-form {
+    margin: 1rem 0;
+    width: 100%;
+    max-width: 600px;
 }
 
 theme-toggle {
     position: fixed;
     top: 2rem;
     right: 2rem;
+    z-index: 100;
 }
