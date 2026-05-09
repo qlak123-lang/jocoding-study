@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="ballGrad" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DAA520;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <!-- Main Ball -->
+  <circle cx="16" cy="16" r="15" fill="url(#ballGrad)" />
+  <!-- Shine -->
+  <circle cx="10" cy="10" r="4" fill="white" fill-opacity="0.3" />
+  <!-- Lucky Star -->
+  <path d="M16 8L18.45 13.5L24 14.25L20 18.5L21.15 24L16 21.25L10.85 24L12 18.5L8 14.25L13.55 13.5L16 8Z" fill="white" />
+</svg>
